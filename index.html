@@ -1,0 +1,2119 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ψηφιακό Κομποσχοίνι</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root, [data-theme="dark"] {
+            --bg-color-start: #0a0510;
+            --bg-color-end: #1f1135;
+            --gold: #e5c158;
+            --gold-glow: rgba(229, 193, 88, 0.6);
+            --bead-empty: rgba(229, 193, 88, 0.2);
+            --text-color: #f0e6d2;
+            --surface-bg: rgba(255, 255, 255, 0.05);
+            --surface-border: rgba(255, 255, 255, 0.08);
+            --surface-hover: rgba(255, 255, 255, 0.1);
+            --modal-bg: rgba(0, 0, 0, 0.7);
+            --modal-content-bg: linear-gradient(145deg, #2a164a, #1a0b2e);
+            --radial-overlay: rgba(0,0,0,0.6);
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            
+            --btn-bg: rgba(255, 255, 255, 0.03);
+            --btn-border: rgba(255, 255, 255, 0.05);
+            --btn-hover-bg: rgba(255, 255, 255, 0.08);
+            --btn-selected-bg: rgba(229, 193, 88, 0.15);
+            --btn-selected-text: var(--gold);
+            --btn-selected-shadow: 0 10px 25px rgba(229, 193, 88, 0.2), inset 0 0 15px rgba(229, 193, 88, 0.1);
+            --stats-title-gradient: linear-gradient(135deg, var(--gold), #fff);
+        }
+
+        [data-theme="light"] {
+            --bg-color-start: #fdfbf7;
+            --bg-color-end: #e8e2d2;
+            --gold: #c49615;
+            --gold-glow: rgba(196, 150, 21, 0.5);
+            --bead-empty: rgba(196, 150, 21, 0.25);
+            --text-color: #3d2e1f;
+            --surface-bg: rgba(255, 255, 255, 0.6);
+            --surface-border: rgba(0, 0, 0, 0.08);
+            --surface-hover: rgba(255, 255, 255, 0.9);
+            --modal-bg: rgba(255, 255, 255, 0.5);
+            --modal-content-bg: linear-gradient(145deg, #ffffff, #f4ecd8);
+            --radial-overlay: rgba(255,255,255,0.4);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            
+            --btn-bg: rgba(0, 0, 0, 0.03);
+            --btn-border: rgba(0, 0, 0, 0.05);
+            --btn-hover-bg: rgba(0, 0, 0, 0.08);
+            --btn-selected-bg: var(--gold);
+            --btn-selected-text: #fff;
+            --btn-selected-shadow: 0 10px 25px var(--gold-glow);
+            --stats-title-gradient: linear-gradient(135deg, var(--gold), #8a6a0f);
+        }
+
+        [data-theme="byzantine"] {
+            --bg-color-start: #2e0811;
+            --bg-color-end: #170408;
+            --gold: #ffd700;
+            --gold-glow: rgba(255, 215, 0, 0.6);
+            --bead-empty: rgba(255, 215, 0, 0.2);
+            --text-color: #ffe6b3;
+            --surface-bg: rgba(255, 215, 0, 0.05);
+            --surface-border: rgba(255, 215, 0, 0.15);
+            --surface-hover: rgba(255, 215, 0, 0.1);
+            --modal-bg: rgba(0, 0, 0, 0.75);
+            --modal-content-bg: linear-gradient(145deg, #4d0e19, #2b060d);
+            --radial-overlay: rgba(0,0,0,0.6);
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            
+            --btn-bg: rgba(255, 215, 0, 0.05);
+            --btn-border: rgba(255, 215, 0, 0.15);
+            --btn-hover-bg: rgba(255, 215, 0, 0.1);
+            --btn-selected-bg: rgba(255, 215, 0, 0.2);
+            --btn-selected-text: #ffd700;
+            --btn-selected-shadow: 0 10px 25px rgba(255, 215, 0, 0.3), inset 0 0 15px rgba(255, 215, 0, 0.1);
+            --stats-title-gradient: linear-gradient(135deg, #ffd700, #ffb300);
+        }
+
+        [data-theme="monastic"] {
+            --bg-color-start: #31261d;
+            --bg-color-end: #18120d;
+            --gold: #d4a373;
+            --gold-glow: rgba(212, 163, 115, 0.5);
+            --bead-empty: rgba(212, 163, 115, 0.2);
+            --text-color: #fefae0;
+            --surface-bg: rgba(212, 163, 115, 0.04);
+            --surface-border: rgba(212, 163, 115, 0.12);
+            --surface-hover: rgba(212, 163, 115, 0.08);
+            --modal-bg: rgba(0, 0, 0, 0.7);
+            --modal-content-bg: linear-gradient(145deg, #3d3024, #241c14);
+            --radial-overlay: rgba(0,0,0,0.6);
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            
+            --btn-bg: rgba(212, 163, 115, 0.05);
+            --btn-border: rgba(212, 163, 115, 0.15);
+            --btn-hover-bg: rgba(212, 163, 115, 0.12);
+            --btn-selected-bg: rgba(212, 163, 115, 0.25);
+            --btn-selected-text: #d4a373;
+            --btn-selected-shadow: 0 10px 25px rgba(212, 163, 115, 0.3), inset 0 0 15px rgba(212, 163, 115, 0.1);
+            --stats-title-gradient: linear-gradient(135deg, #d4a373, #faedcd);
+        }
+
+        [data-theme="aegean"] {
+            --bg-color-start: #0f1c2e;
+            --bg-color-end: #060b14;
+            --gold: #a8c0ff;
+            --gold-glow: rgba(168, 192, 255, 0.6);
+            --bead-empty: rgba(168, 192, 255, 0.2);
+            --text-color: #f0f4ff;
+            --surface-bg: rgba(168, 192, 255, 0.05);
+            --surface-border: rgba(168, 192, 255, 0.15);
+            --surface-hover: rgba(168, 192, 255, 0.1);
+            --modal-bg: rgba(0, 0, 0, 0.7);
+            --modal-content-bg: linear-gradient(145deg, #172a45, #0a1321);
+            --radial-overlay: rgba(0,0,0,0.6);
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            
+            --btn-bg: rgba(168, 192, 255, 0.05);
+            --btn-border: rgba(168, 192, 255, 0.2);
+            --btn-hover-bg: rgba(168, 192, 255, 0.15);
+            --btn-selected-bg: rgba(168, 192, 255, 0.25);
+            --btn-selected-text: #a8c0ff;
+            --btn-selected-shadow: 0 10px 25px rgba(168, 192, 255, 0.3), inset 0 0 15px rgba(168, 192, 255, 0.1);
+            --stats-title-gradient: linear-gradient(135deg, #a8c0ff, #fff);
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root:not([data-theme="dark"]) {
+                --bg-color-start: #fdfbf7;
+                --bg-color-end: #e8e2d2;
+                --gold: #c49615;
+                --gold-glow: rgba(196, 150, 21, 0.5);
+                --bead-empty: rgba(196, 150, 21, 0.25);
+                --text-color: #3d2e1f;
+                --surface-bg: rgba(255, 255, 255, 0.6);
+                --surface-border: rgba(0, 0, 0, 0.08);
+                --surface-hover: rgba(255, 255, 255, 0.9);
+                --modal-bg: rgba(255, 255, 255, 0.5);
+                --modal-content-bg: linear-gradient(145deg, #ffffff, #f4ecd8);
+                --radial-overlay: rgba(255,255,255,0.4);
+                --shadow-color: rgba(0, 0, 0, 0.1);
+                
+                --btn-bg: rgba(0, 0, 0, 0.03);
+                --btn-border: rgba(0, 0, 0, 0.05);
+                --btn-hover-bg: rgba(0, 0, 0, 0.08);
+                --btn-selected-bg: var(--gold);
+                --btn-selected-text: #fff;
+                --btn-selected-shadow: 0 10px 25px var(--gold-glow);
+                --stats-title-gradient: linear-gradient(135deg, var(--gold), #8a6a0f);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background: radial-gradient(circle at center, var(--bg-color-end) 0%, var(--bg-color-start) 100%);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            height: 100dvh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.5s ease, color 0.5s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at center, transparent 30%, var(--radial-overlay) 100%);
+            pointer-events: none;
+            z-index: 1;
+            transition: background 0.5s ease;
+        }
+
+        .prayer-header {
+            position: absolute;
+            top: 6vh;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-family: 'MgByzantine', 'Byzantine', 'Orologion', 'Asea', 'EB Garamond', serif;
+            font-weight: bold;
+            font-size: 1.8rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+            z-index: 10;
+            pointer-events: none;
+            text-shadow: 0 2px 10px var(--shadow-color);
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transform: translateY(-2vh); /* Subtle push upwards on desktop */
+        }
+
+        svg {
+            position: absolute;
+            width: 90vmin;
+            height: 90vmin;
+            pointer-events: none;
+            filter: drop-shadow(0 0 15px var(--shadow-color));
+            transition: filter 0.5s ease;
+        }
+
+        .bead {
+            fill: transparent;
+            stroke: var(--bead-empty);
+            stroke-width: 2px;
+            transition: fill 0.3s ease, stroke 0.3s ease, filter 0.3s ease;
+        }
+
+        .bead.filled {
+            fill: var(--gold);
+            stroke: var(--gold);
+            filter: drop-shadow(0 0 8px var(--gold-glow));
+        }
+
+        .cross {
+            fill: var(--gold);
+            filter: drop-shadow(0 0 10px var(--gold-glow));
+        }
+
+        .center-content {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1vmin;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .center-counter {
+            font-family: 'Cinzel', serif;
+            font-size: 10vmin;
+            font-weight: 700;
+            color: var(--gold);
+            text-shadow: 0 0 20px var(--gold-glow);
+            transition: transform 0.2s ease, text-shadow 0.5s ease, color 0.5s ease;
+        }
+
+        .center-counter.bump {
+            transform: scale(1.1);
+        }
+
+        /* Stats Panels */
+        .bottom-stats-container {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            right: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .stats-panel {
+            background: var(--surface-bg);
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--surface-border);
+            transition: all 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .bottom-left {
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .bottom-right {
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        .stats-header {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            opacity: 0.6;
+        }
+
+        .stats-body {
+            display: flex;
+            align-items: baseline;
+            gap: 0.4rem;
+        }
+
+        .stats-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .stats-label {
+            font-size: 0.9rem;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
+        /* Settings Button */
+        .settings-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: var(--surface-bg);
+            border: 1px solid var(--surface-border);
+            color: var(--text-color);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 20;
+            box-shadow: 0 8px 32px var(--shadow-color);
+        }
+
+        .settings-btn:hover {
+            background: var(--surface-hover);
+            transform: rotate(90deg) scale(1.1);
+            border-color: var(--gold-glow);
+        }
+
+        .settings-btn svg {
+            width: 26px;
+            height: 26px;
+            fill: currentColor;
+            position: static;
+            filter: none;
+        }
+
+        .mode-btn {
+            position: absolute;
+            top: 2rem;
+            right: 11rem;
+            background: var(--surface-bg);
+            border: 1px solid var(--surface-border);
+            color: var(--text-color);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 20;
+            box-shadow: 0 8px 32px var(--shadow-color);
+        }
+
+        .mode-btn:hover {
+            background: var(--surface-hover);
+            transform: scale(1.1);
+            border-color: var(--gold-glow);
+        }
+
+        .mode-btn svg {
+            width: 26px;
+            height: 26px;
+            fill: currentColor;
+        }
+
+        .mode-display {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gold);
+            text-shadow: 0 0 10px var(--gold-glow);
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            border: 1px solid var(--surface-border);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tasks-panel {
+            position: absolute;
+            top: 5rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--surface-border);
+            border-radius: 16px;
+            padding: 1rem;
+            display: none;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 10;
+            max-width: 300px;
+        }
+
+        .task-item {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            opacity: 0.5;
+            transition: opacity 0.3s ease, color 0.3s ease;
+        }
+
+        .task-item.active {
+            opacity: 1;
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        .task-item.completed {
+            text-decoration: line-through;
+            opacity: 0.3;
+        }
+
+        .task-item .task-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            flex-shrink: 0;
+        }
+
+        .timer-btn {
+            position: absolute;
+            top: 2rem;
+            right: 6.5rem;
+            background: var(--surface-bg);
+            border: 1px solid var(--surface-border);
+            color: var(--text-color);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 20;
+            box-shadow: 0 8px 32px var(--shadow-color);
+        }
+
+        .timer-btn:hover {
+            background: var(--surface-hover);
+            transform: scale(1.1);
+            border-color: var(--gold-glow);
+        }
+        
+        .timer-btn.active {
+            color: var(--gold);
+            border-color: var(--gold);
+            box-shadow: 0 0 15px var(--gold-glow);
+        }
+
+        .timer-btn svg {
+            width: 26px;
+            height: 26px;
+            fill: currentColor;
+            position: static;
+            filter: none;
+        }
+        
+        .timer-wrapper {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            pointer-events: auto;
+        }
+
+        .timer-display {
+            font-family: 'Inter', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-shadow: 0 0 15px var(--gold-glow);
+            cursor: pointer;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .timer-display:hover {
+            transform: scale(1.05);
+        }
+
+        .timer-control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--surface-border);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+        }
+        
+        .timer-control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .timer-control-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Settings Modal */
+        .settings-modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--modal-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease, background 0.5s ease;
+            z-index: 30;
+        }
+
+        .settings-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .settings-content {
+            background: var(--modal-content-bg);
+            padding: 2rem 2rem;
+            border-radius: 24px;
+            border: 1px solid var(--surface-border);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.1);
+            text-align: center;
+            transform: translateY(30px) scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.5s ease, box-shadow 0.5s ease;
+            max-width: 90vw;
+            max-height: 90dvh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .settings-modal.active .settings-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .settings-content h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin-bottom: 1.2rem;
+            margin-top: 1rem;
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .settings-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .settings-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        .options-grid {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .theme-options, .completion-sound-options, .toggle-options {
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.8rem;
+        }
+
+        .settings-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-bottom: 1.8rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            border: 1px solid var(--surface-border);
+        }
+        
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--surface-border);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: var(--text-color);
+            transition: .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--gold);
+            border-color: var(--gold);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(22px);
+            background-color: #121212;
+        }
+
+        .voice-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .voice-options .option-btn {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            font-size: 1rem;
+        }
+
+        .option-btn {
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            color: var(--text-color);
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+        }
+
+        .option-btn:hover {
+            background: var(--btn-hover-bg);
+            border-color: rgba(229, 193, 88, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .option-btn.selected {
+            background: var(--btn-selected-bg);
+            color: var(--btn-selected-text);
+            border-color: var(--gold);
+            box-shadow: var(--btn-selected-shadow);
+            transform: translateY(-2px);
+            font-weight: 700;
+        }
+
+        .close-x-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .close-x-btn:hover {
+            background-color: #c82333;
+            transform: scale(1.1);
+        }
+
+        .pulse {
+            animation: pulse-anim 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes pulse-anim {
+            0% { transform: scale(1); filter: drop-shadow(0 0 8px var(--gold-glow)); }
+            50% { transform: scale(1.6); filter: drop-shadow(0 0 20px var(--gold)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 8px var(--gold-glow)); }
+        }
+
+        .completion-glow {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at center, var(--bead-empty) 0%, transparent 70%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+            z-index: 5;
+        }
+
+        .completion-glow.active {
+            opacity: 1;
+            animation: fade-out-glow 2s forwards;
+        }
+
+        @keyframes fade-out-glow {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.1); }
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 480px) {
+            .desktop-only { display: none; }
+            .prayer-header {
+                font-size: 1.3rem;
+                top: 10vh;
+                padding: 0 1rem;
+                line-height: 1.4;
+            }
+            .container {
+                transform: translateY(-8vh); /* Strong push upwards to balance top/bottom gap */
+            }
+            .bottom-stats-container {
+                bottom: 1rem;
+                left: 1rem;
+                right: 1rem;
+                gap: 0.5rem;
+            }
+            .stats-panel {
+                padding: 0.8rem 1rem;
+                width: 48%; /* To ensure they don't overlap */
+                gap: 0.2rem;
+            }
+            .stats-header {
+                font-size: 0.7rem;
+                letter-spacing: 1px;
+            }
+            .stats-value {
+                font-size: 1.6rem;
+            }
+            .stats-label {
+                font-size: 0.8rem;
+            }
+            .settings-content {
+                padding: 1.5rem 1.2rem;
+                max-width: 95vw;
+                border-radius: 20px;
+            }
+            .settings-content h2 {
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+                margin-top: 0.8rem;
+            }
+            .options-grid {
+                gap: 0.6rem;
+                margin-bottom: 1.2rem;
+            }
+            .theme-options, .completion-sound-options, .toggle-options {
+                gap: 0.4rem;
+                margin-bottom: 1.5rem;
+            }
+            .voice-options {
+                gap: 0.4rem;
+                margin-bottom: 1.2rem;
+            }
+            .voice-options .option-btn {
+                font-size: 0.9rem;
+                padding: 0.7rem 1rem;
+            }
+            .option-btn {
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+                border-radius: 10px;
+            }
+            .settings-btn {
+                top: 1rem;
+                right: 1rem;
+                width: 45px;
+                height: 45px;
+            }
+            .mode-btn {
+                top: 1rem;
+                right: 8rem;
+                width: 45px;
+                height: 45px;
+            }
+            .mode-btn svg {
+                width: 22px;
+                height: 22px;
+            }
+            .mode-display {
+                top: 1rem;
+                left: 1rem;
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+            .tasks-panel {
+                top: 4.5rem;
+                left: 1rem;
+                padding: 0.8rem;
+                max-width: none;
+                white-space: nowrap;
+            }
+            .task-item {
+                font-size: 0.8rem;
+            }
+            .container {
+                transition: transform 0.4s ease;
+            }
+            .timer-btn {
+                top: 1rem;
+                right: 4.5rem;
+                width: 45px;
+                height: 45px;
+            }
+            .timer-display {
+                font-size: 1.8rem;
+            }
+            svg {
+                width: 120vw;
+                height: 120vw;
+                max-height: 72vh;
+                max-width: 72vh;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="mode-display" id="modeDisplay" style="display: none;">Ελεύθερα</div>
+    <div class="tasks-panel" id="tasksPanel"></div>
+
+    <div class="completion-glow" id="completionGlow"></div>
+
+    <div class="prayer-header" id="prayerText">Κύριε Ἰησοῦ Χριστέ, ἐλέησόν με</div>
+
+    <div class="container" id="mainContainer">
+        <!-- SVG will be injected here via JS -->
+        <div class="center-content" id="centerContent">
+            <div class="center-counter" id="centerCounter">0</div>
+            <div class="timer-wrapper" id="timerWrapper">
+                <div class="timer-display" id="timerDisplay">30:00</div>
+                <button class="timer-control-btn" id="timerPlayPauseBtn" aria-label="Παύση/Εκκίνηση">
+                    <svg viewBox="0 0 24 24" id="timerControlIcon">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daily and Overall Stats Display -->
+    <div class="bottom-stats-container">
+        <div class="stats-panel bottom-left">
+            <div class="stats-header">Σήμερα</div>
+            <div class="stats-body">
+                <div class="stats-value" id="dailyCycles">0</div>
+                <div class="stats-label"><span class="desktop-only">Κομποσχοίνια </span><span id="dailyKnotType">100</span>άρια</div>
+            </div>
+        </div>
+        <div class="stats-panel bottom-right">
+            <div class="stats-header">Συνολικά</div>
+            <div class="stats-body">
+                <div class="stats-value" id="overallCycles">0</div>
+                <div class="stats-label"><span class="desktop-only">Κομποσχοίνια </span><span id="overallKnotType">100</span>άρια</div>
+            </div>
+        </div>
+    </div>
+
+    <button class="mode-btn" id="openMode" aria-label="Επιλογή Mode">
+        <svg viewBox="0 0 24 24">
+            <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
+        </svg>
+    </button>
+    <button class="timer-btn" id="toggleTimerBtn" aria-label="Χρονόμετρο">
+        <svg viewBox="0 0 24 24">
+            <path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
+        </svg>
+    </button>
+    <button class="settings-btn" id="openSettings" aria-label="Ρυθμίσεις">
+        <svg viewBox="0 0 24 24">
+            <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+        </svg>
+    </button>
+
+    <div class="settings-modal" id="settingsModal">
+        <div class="settings-content" id="settingsContent">
+            <button class="close-x-btn" id="closeSettings">&times;</button>
+            <h2>Αριθμός Κόμπων</h2>
+            <div class="options-grid">
+                <button class="option-btn" data-type="beads" data-value="33">33</button>
+                <button class="option-btn" data-type="beads" data-value="100">100</button>
+                <button class="option-btn" data-type="beads" data-value="300">300</button>
+            </div>
+            
+            <h2>Φωνή Προσευχής</h2>
+            <div class="voice-options">
+                <button class="option-btn" data-type="voice" data-value="none">Χωρίς φωνή</button>
+                <button class="option-btn" data-type="voice" data-value="efraim_arizonitis">Γέροντας Εφραίμ Αριζονίτης</button>
+                <button class="option-btn" data-type="voice" data-value="efraim_katounakiotis">Άγιος Εφραίμ Κατουνακιώτης</button>
+                <button class="option-btn" data-type="voice" data-value="paisios">Άγιος Παΐσιος Αγιορείτης</button>
+                <button class="option-btn" data-type="voice" data-value="porfirios">Άγιος Πορφύριος Καυσοκαλυβίτης</button>
+            </div>
+
+            <h2>Ενδείξεις & Ήχοι</h2>
+            <div class="settings-group">
+                <div class="setting-row">
+                    <span>Με ήχο ολοκλήρωσης</span>
+                    <label class="switch">
+                        <input type="checkbox" id="toggleCompletionSound">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
+                    <span>Μετρητής κόμπων</span>
+                    <label class="switch">
+                        <input type="checkbox" id="toggleCenterCounter">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
+                    <span>Συνολικοί μετρητές</span>
+                    <label class="switch">
+                        <input type="checkbox" id="toggleStats">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <h2>Θέμα Εφαρμογής</h2>
+            <div class="theme-options">
+                <button class="option-btn" data-type="theme" data-value="auto">Αυτόματο</button>
+                <button class="option-btn" data-type="theme" data-value="light">Φωτεινό</button>
+                <button class="option-btn" data-type="theme" data-value="dark">Σκοτεινό</button>
+                <button class="option-btn" data-type="theme" data-value="byzantine">Βυζαντινό</button>
+                <button class="option-btn" data-type="theme" data-value="monastic">Μοναστηριακό</button>
+                <button class="option-btn" data-type="theme" data-value="aegean">Αιγαίο</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Mode Modal -->
+    <div class="settings-modal" id="modeModal">
+        <div class="settings-content">
+            <button class="close-x-btn" id="closeMode">&times;</button>
+            <h2>Επιλογή</h2>
+            <div class="options-grid" id="modeOptionsContainer" style="flex-direction: column;">
+                <!-- Buttons injected via JS -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Confirm Reset Modal -->
+    <div class="settings-modal" id="confirmResetModal">
+        <div class="settings-content" style="text-align: center;">
+            <p style="margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.4;">Η αλλαγή του τρόπου μέτρησης θα κάνει επαναφορά. Θέλεις να συνεχίσεις;</p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button class="option-btn" id="confirmResetYes" style="flex: 1;">Ναι</button>
+                <button class="option-btn" id="confirmResetNo" style="flex: 1;">Όχι</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const confirmResetModal = document.getElementById('confirmResetModal');
+        const confirmResetYesBtn = document.getElementById('confirmResetYes');
+        const confirmResetNoBtn = document.getElementById('confirmResetNo');
+        const centerCounterEl = document.getElementById('centerCounter');
+        const prayerTextEl = document.getElementById('prayerText');
+        const toggleTimerBtn = document.getElementById('toggleTimerBtn');
+        const timerWrapper = document.getElementById('timerWrapper');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const timerPlayPauseBtn = document.getElementById('timerPlayPauseBtn');
+        const timerControlIcon = document.getElementById('timerControlIcon');
+        const mainContainer = document.getElementById('mainContainer');
+        const settingsModal = document.getElementById('settingsModal');
+        const openSettingsBtn = document.getElementById('openSettings');
+        const closeSettingsBtn = document.getElementById('closeSettings');
+        const beadBtns = document.querySelectorAll('.option-btn[data-type="beads"]');
+        const themeBtns = document.querySelectorAll('.option-btn[data-type="theme"]');
+        const voiceBtns = document.querySelectorAll('.option-btn[data-type="voice"]');
+        const toggleCompletionSound = document.getElementById('toggleCompletionSound');
+
+        const modeDisplay = document.getElementById('modeDisplay');
+        const tasksPanel = document.getElementById('tasksPanel');
+        const modeModal = document.getElementById('modeModal');
+        const openModeBtn = document.getElementById('openMode');
+        const closeModeBtn = document.getElementById('closeMode');
+        const modeOptionsContainer = document.getElementById('modeOptionsContainer');
+
+        const MODES = ["Ελεύθερα", "Ἑσπερινός", "Ἀπόδειπνον", "Μεσονυκτικόν", "Ὄρθρος", "Θεία Μετάληψις", "Παράκλησις (Στον Χριστό)", "Παράκλησις (Στην Παναγία)", "Παράκλησις (Σε Άγιο)", "Ὧραι"];
+        
+        const MODE_TASKS = {
+            "Ελεύθερα": [],
+            "Ἑσπερινός": [
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(της Παναγίας)", beads: 300 },
+                { label: "(του Αγίου της ημέρας)", beads: 100 },
+                { label: "(του Αγίου της Ενορίας)", beads: 100 },
+                { label: "(του Αγίου της Εβδομάδας)", beads: 100 }
+            ],
+            "Ἀπόδειπνον": [
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(της Παναγίας)", beads: 300 },
+                { label: "(της Παναγίας)", beads: 300 },
+                { label: "(της Παναγίας)", beads: 300 },
+                { label: "(του Αγίου της ημέρας)", beads: 100 },
+                { label: "(του Αγίου της Ενορίας)", beads: 100 },
+                { label: "(του Αγίου της Εβδομάδας)", beads: 100 }
+            ],
+            "Μεσονυκτικόν": [
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(της Παναγίας)", beads: 300 }
+            ],
+            "Ὄρθρος": [
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(της Παναγίας)", beads: 300 },
+                { label: "(της Παναγίας)", beads: 300 },
+                { label: "(της Παναγίας)", beads: 300 },
+                { label: "(του Αγίου της ημέρας)", beads: 100 },
+                { label: "(του Αγίου της Ενορίας)", beads: 100 },
+                { label: "(του Αγίου της Εβδομάδας)", beads: 100 },
+                { label: "(των Αγίων Πάντων)", beads: 300 }
+            ],
+            "Θεία Μετάληψις": [
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(της Παναγίας)", beads: 300 }
+            ],
+            "Παράκλησις (Στον Χριστό)": [
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 }
+            ],
+            "Παράκλησις (Στην Παναγία)": [
+                { label: "(της Παναγίας)", beads: 300 },
+                { label: "(της Παναγίας)", beads: 300 }
+            ],
+            "Παράκλησις (Σε Άγιο)": [
+                { label: "(σε Άγιο)", beads: 300 },
+                { label: "(σε Άγιο)", beads: 300 }
+            ],
+            "Ὧραι": [
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(του Χριστού)", beads: 300 },
+                { label: "(της Παναγίας)", beads: 300 },
+                { label: "(της Παναγίας)", beads: 300 }
+            ]
+        };
+
+        const MODE_TIMER_TASKS = {
+            "Ελεύθερα": [],
+            "Ἑσπερινός": [
+                { label: "(του Χριστού)", minutes: 15 },
+                { label: "(της Παναγίας)", minutes: 5 },
+                { label: "(του Αγίου της ημέρας)", minutes: 2 },
+                { label: "(του Αγίου της Ενορίας)", minutes: 2 },
+                { label: "(του Αγίου της Εβδομάδας)", minutes: 2 }
+            ],
+            "Ἀπόδειπνον": [
+                { label: "(του Χριστού)", minutes: 15 },
+                { label: "(της Παναγίας)", minutes: 15 },
+                { label: "(του Αγίου της ημέρας)", minutes: 2 },
+                { label: "(του Αγίου της Ενορίας)", minutes: 2 },
+                { label: "(του Αγίου της Εβδομάδας)", minutes: 2 }
+            ],
+            "Μεσονυκτικόν": [
+                { label: "(του Χριστού)", minutes: 15 },
+                { label: "(της Παναγίας)", minutes: 5 }
+            ],
+            "Ὄρθρος": [
+                { label: "(του Χριστού)", minutes: 60 },
+                { label: "(της Παναγίας)", minutes: 15 },
+                { label: "(του Αγίου της ημέρας)", minutes: 2 },
+                { label: "(του Αγίου της Ενορίας)", minutes: 2 },
+                { label: "(του Αγίου της Εβδομάδας)", minutes: 2 },
+                { label: "(των Αγίων Πάντων)", minutes: 5 }
+            ],
+            "Θεία Μετάληψις": [
+                { label: "(του Χριστού)", minutes: 15 },
+                { label: "(της Παναγίας)", minutes: 5 }
+            ],
+            "Παράκλησις (Στον Χριστό)": [
+                { label: "(του Χριστού)", minutes: 10 }
+            ],
+            "Παράκλησις (Στην Παναγία)": [
+                { label: "(της Παναγίας)", minutes: 10 }
+            ],
+            "Παράκλησις (Σε Άγιο)": [
+                { label: "(σε Άγιο)", minutes: 10 }
+            ],
+            "Ὧραι": [
+                { label: "(του Χριστού)", minutes: 30 },
+                { label: "(της Παναγίας)", minutes: 10 }
+            ]
+        };
+
+        let isTimerActive = localStorage.getItem('komposxoini-timer-active') === 'true';
+        let timerDurationSecs = parseInt(localStorage.getItem('komposxoini-timer-duration')) || (30 * 60);
+        let timerSecondsRemaining = timerDurationSecs;
+        let timerInterval = null;
+        let timerState = 'idle'; // 'idle', 'running', 'paused'
+
+        let currentModeTaskIndex = parseInt(localStorage.getItem('komposxoini-mode-task-index')) || 0;
+        let currentMode = localStorage.getItem('komposxoini-mode') || "Ελεύθερα";
+
+        function adjustLayout() {
+            if (window.innerWidth > 768) {
+                const mainContainer = document.getElementById('mainContainer');
+                const svg = document.querySelector('svg.komboskini-svg');
+                if (mainContainer) {
+                    mainContainer.style.position = '';
+                    mainContainer.style.top = '';
+                    mainContainer.style.height = '';
+                }
+                if (svg) {
+                    svg.style.maxHeight = '';
+                    svg.style.maxWidth = '';
+                }
+                return;
+            }
+
+            const tasksPanel = document.getElementById('tasksPanel');
+            const prayerText = document.getElementById('prayerText');
+            const bottomStats = document.querySelector('.bottom-stats-container');
+            const mainContainer = document.getElementById('mainContainer');
+            const svg = document.querySelector('svg.komboskini-svg');
+            
+            let topBound = prayerText.getBoundingClientRect().bottom;
+            if (tasksPanel && tasksPanel.style.display !== 'none' && tasksPanel.offsetHeight > 0) {
+                topBound = tasksPanel.getBoundingClientRect().bottom + 10;
+            } else {
+                topBound += 20; 
+            }
+            
+            let bottomBound = window.innerHeight;
+            if (bottomStats && bottomStats.offsetHeight > 0) {
+                bottomBound = bottomStats.getBoundingClientRect().top - 10;
+            }
+            
+            const availableHeight = bottomBound - topBound;
+            
+            if (availableHeight > 0 && mainContainer) {
+                mainContainer.style.position = 'absolute';
+                mainContainer.style.top = topBound + 'px';
+                mainContainer.style.height = availableHeight + 'px';
+                
+                if (svg) {
+                    svg.style.maxHeight = availableHeight + 'px';
+                    svg.style.maxWidth = availableHeight + 'px';
+                }
+            }
+        }
+
+        window.addEventListener('resize', adjustLayout);
+        // Call initially
+        setTimeout(adjustLayout, 100);
+
+        function renderTasks() {
+            const list = isTimerActive ? MODE_TIMER_TASKS : MODE_TASKS;
+            const tasks = list[currentMode];
+            if (!tasks || tasks.length === 0 || currentMode === "Ελεύθερα") {
+                tasksPanel.style.display = 'none';
+                mainContainer.classList.remove('has-tasks');
+                return;
+            }
+            
+            mainContainer.classList.add('has-tasks');
+            tasksPanel.style.display = 'flex';
+            tasksPanel.innerHTML = '';
+            
+            let i = 0;
+            while (i < tasks.length) {
+                let startIdx = i;
+                let count = 1;
+                while (i + 1 < tasks.length && tasks[i+1].label === tasks[startIdx].label && tasks[i+1].beads === tasks[startIdx].beads && tasks[i+1].minutes === tasks[startIdx].minutes) {
+                    count++;
+                    i++;
+                }
+                
+                let endIdx = i;
+                let isActive = currentModeTaskIndex >= startIdx && currentModeTaskIndex <= endIdx;
+                let isCompleted = currentModeTaskIndex > endIdx;
+                
+                let completedWithinGroup = 0;
+                if (isCompleted) {
+                    completedWithinGroup = count;
+                } else if (isActive) {
+                    completedWithinGroup = currentModeTaskIndex - startIdx;
+                }
+                
+                const item = document.createElement('div');
+                item.className = 'task-item';
+                if (isCompleted) item.classList.add('completed');
+                else if (isActive) item.classList.add('active');
+                
+                const task = tasks[startIdx];
+                let countStr = count > 1 ? `${count}x ` : '';
+                let progressStr = (isActive && count > 1) ? ` (${completedWithinGroup + 1}/${count})` : '';
+                
+                const unit = count > 1 ? `${task.beads}άρια` : `${task.beads}άρι`;
+                const text = isTimerActive 
+                    ? `${countStr}${task.minutes} λεπτά ${task.label}${progressStr}` 
+                    : `${countStr}${unit} ${task.label}${progressStr}`;
+                    
+                item.innerHTML = `<div class="task-dot"></div><span>${text}</span>`;
+                tasksPanel.appendChild(item);
+                
+                i++;
+            }
+            
+            // Adjust layout after rendering tasks
+            setTimeout(adjustLayout, 50);
+        }
+
+        function updateSettingsBeadsState() {
+            const isModeActive = currentMode !== "Ελεύθερα";
+            beadBtns.forEach(btn => {
+                btn.disabled = isModeActive;
+                if (isModeActive) {
+                    btn.style.opacity = '0.5';
+                    btn.style.cursor = 'not-allowed';
+                } else {
+                    btn.style.opacity = '1';
+                    btn.style.cursor = 'pointer';
+                }
+            });
+        }
+
+        function updateModeDisplay() {
+            if (currentMode === "Ελεύθερα") {
+                modeDisplay.style.display = 'none';
+                toggleTimerBtn.style.opacity = '1';
+            } else {
+                modeDisplay.style.display = 'flex';
+                modeDisplay.innerText = currentMode;
+                toggleTimerBtn.style.opacity = '1';
+            }
+            renderTasks();
+            updateSettingsBeadsState();
+        }
+
+        function renderModeOptions() {
+            modeOptionsContainer.innerHTML = '';
+            MODES.forEach(mode => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn' + (mode === currentMode ? ' selected' : '');
+                btn.innerText = mode;
+                btn.style.width = '100%';
+                btn.style.marginBottom = '0.5rem';
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (currentMode !== mode) {
+                        currentMode = mode;
+                        localStorage.setItem('komposxoini-mode', mode);
+                        currentModeTaskIndex = 0;
+                        localStorage.setItem('komposxoini-mode-task-index', 0);
+                        
+                        if (isTimerActive) {
+                            if (MODE_TIMER_TASKS[currentMode] && MODE_TIMER_TASKS[currentMode].length > 0) {
+                                timerDurationSecs = MODE_TIMER_TASKS[currentMode][0].minutes * 60;
+                                localStorage.setItem('komposxoini-timer-duration', timerDurationSecs);
+                                if (timerState === 'running') pauseTimer();
+                                timerSecondsRemaining = timerDurationSecs;
+                                updateTimerDisplay();
+                            }
+                        } else {
+                            if (MODE_TASKS[currentMode] && MODE_TASKS[currentMode].length > 0) {
+                                const newBeads = MODE_TASKS[currentMode][0].beads;
+                                if (totalBeads !== newBeads) {
+                                    totalBeads = newBeads;
+                                    localStorage.setItem('komposxoini-beads', totalBeads);
+                                    currentCount = 0;
+                                    localStorage.setItem('komposxoini-count', 0);
+                                    if (typeof createKomboskini === 'function') {
+                                        createKomboskini();
+                                    }
+                                }
+                            }
+                        }
+                        updateModeDisplay();
+                    }
+                    Array.from(modeOptionsContainer.children).forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    setTimeout(() => modeModal.classList.remove('active'), 200);
+                });
+                modeOptionsContainer.appendChild(btn);
+            });
+        }
+
+        renderModeOptions();
+        updateModeDisplay();
+
+        openModeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            modeModal.classList.add('active');
+        });
+
+        closeModeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            modeModal.classList.remove('active');
+        });
+
+        modeModal.addEventListener('click', (e) => {
+            if (e.target === modeModal) {
+                modeModal.classList.remove('active');
+            }
+            e.stopPropagation();
+        });
+
+        const toggleCenterCounter = document.getElementById('toggleCenterCounter');
+        const toggleStats = document.getElementById('toggleStats');
+        const completionGlow = document.getElementById('completionGlow');
+        
+        const dailyCyclesEl = document.getElementById('dailyCycles');
+        const overallCyclesEl = document.getElementById('overallCycles');
+        const dailyKnotTypeEl = document.getElementById('dailyKnotType');
+        const overallKnotTypeEl = document.getElementById('overallKnotType');
+        const bottomStatsContainer = document.querySelector('.bottom-stats-container');
+
+        // State variables
+        let totalBeads = parseInt(localStorage.getItem('komposxoini-beads')) || 100;
+        let currentCount = parseInt(localStorage.getItem('komposxoini-count')) || 0;
+        let showCenterCounter = localStorage.getItem('komposxoini-show-center-counter') || 'on';
+        let showStats = localStorage.getItem('komposxoini-show-stats') || 'on';
+        let beadsElements = [];
+        let prayerTextTimeout;
+
+        function updateVisibility() {
+            centerCounterEl.style.display = showCenterCounter === 'on' ? 'block' : 'none';
+            bottomStatsContainer.style.display = showStats === 'on' ? 'flex' : 'none';
+        }
+
+
+
+        function updateTimerDisplay() {
+            if (!isTimerActive) {
+                timerWrapper.style.display = 'none';
+                toggleTimerBtn.classList.remove('active');
+                if (timerInterval) clearInterval(timerInterval);
+                return;
+            }
+            
+            timerWrapper.style.display = 'flex';
+            toggleTimerBtn.classList.add('active');
+            
+            const h = Math.floor(timerSecondsRemaining / 3600);
+            const m = Math.floor((timerSecondsRemaining % 3600) / 60);
+            const s = timerSecondsRemaining % 60;
+            
+            if (h > 0) {
+                timerDisplay.innerText = `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            } else {
+                timerDisplay.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            }
+
+            if (timerState === 'running') {
+                timerControlIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; // Pause icon
+            } else {
+                timerControlIcon.innerHTML = '<path d="M8 5v14l11-7z"/>'; // Play icon
+            }
+        }
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerState = 'running';
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                if (timerSecondsRemaining > 0) {
+                    timerSecondsRemaining--;
+                    updateTimerDisplay();
+                } else {
+                    if (isTimerActive && currentMode !== "Ελεύθερα" && MODE_TIMER_TASKS[currentMode] && MODE_TIMER_TASKS[currentMode].length > 0) {
+                        currentModeTaskIndex++;
+                        localStorage.setItem('komposxoini-mode-task-index', currentModeTaskIndex);
+                        
+                        if (currentModeTaskIndex >= MODE_TIMER_TASKS[currentMode].length) {
+                            // Entire mode complete
+                            currentMode = "Ελεύθερα";
+                            localStorage.setItem('komposxoini-mode', currentMode);
+                            currentModeTaskIndex = 0;
+                            localStorage.setItem('komposxoini-mode-task-index', 0);
+                            updateModeDisplay();
+                            
+                            Array.from(modeOptionsContainer.children).forEach(b => {
+                                if (b.innerText === "Ελεύθερα") b.classList.add('selected');
+                                else b.classList.remove('selected');
+                            });
+                            
+                            clearInterval(timerInterval);
+                            timerState = 'idle';
+                            timerSecondsRemaining = timerDurationSecs;
+                            triggerCompletionSound(3);
+                            isTimerActive = false;
+                            localStorage.setItem('komposxoini-timer-active', 'false');
+                            updateTimerDisplay();
+                        } else {
+                            // Advance to next task
+                            const nextMins = MODE_TIMER_TASKS[currentMode][currentModeTaskIndex].minutes;
+                            timerDurationSecs = nextMins * 60;
+                            localStorage.setItem('komposxoini-timer-duration', timerDurationSecs);
+                            timerSecondsRemaining = timerDurationSecs;
+                            updateTimerDisplay();
+                            renderTasks();
+                            triggerCompletionSound(1);
+                        }
+                    } else {
+                        // Normal timer logic
+                        clearInterval(timerInterval);
+                        timerState = 'idle';
+                        timerSecondsRemaining = timerDurationSecs;
+                        if (completionSound === 'on') {
+                            completionAudioElement.currentTime = 0;
+                            completionAudioElement.play().catch(e => console.error(e));
+                        }
+                        isTimerActive = false;
+                        localStorage.setItem('komposxoini-timer-active', 'false');
+                        updateTimerDisplay();
+                    }
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerState = 'paused';
+            updateTimerDisplay();
+        }
+
+        function togglePlayPause() {
+            if (timerState === 'running') {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        }
+
+        // Audio variables
+        let currentVoice = localStorage.getItem('komposxoini-voice') || 'none';
+        let isAudioPlaying = false;
+        const audioElement = new Audio();
+        
+        let completionSound = localStorage.getItem('komposxoini-completion-sound') || 'on';
+        const completionAudioElement = new Audio('audio/cadel1.mp3');
+        
+        audioElement.addEventListener('ended', () => {
+            isAudioPlaying = false;
+        });
+
+        audioElement.addEventListener('error', () => {
+            // Unblock UI if audio fails to load
+            console.error("Audio file could not be loaded.");
+            isAudioPlaying = false;
+        });
+
+        // Initialize UI for voice
+        voiceBtns.forEach(b => {
+            if (b.getAttribute('data-value') === currentVoice) {
+                b.classList.add('selected');
+            } else {
+                b.classList.remove('selected');
+            }
+        });
+
+        // Helper to get local date string
+        function getLocalDayString() {
+            const d = new Date();
+            return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+        }
+
+        // Stats tracking
+        let stats = JSON.parse(localStorage.getItem('komposxoini-stats'));
+        if (!stats) {
+            stats = {
+                lastDate: getLocalDayString(),
+                daily: {33:0, 100:0, 300:0},
+                overall: {33:0, 100:0, 300:0}
+            };
+        } else {
+            if (!stats.daily) stats.daily = {33:0, 100:0, 300:0};
+            if (!stats.overall) stats.overall = {33:0, 100:0, 300:0};
+        }
+
+        function checkDate() {
+            const today = getLocalDayString();
+            if (stats.lastDate !== today) {
+                stats.lastDate = today;
+                stats.daily = {33:0, 100:0, 300:0};
+                saveState();
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem('komposxoini-beads', totalBeads);
+            localStorage.setItem('komposxoini-count', currentCount);
+            localStorage.setItem('komposxoini-stats', JSON.stringify(stats));
+        }
+
+        // Initialize UI for loaded beads setting
+        beadBtns.forEach(b => {
+            if (parseInt(b.getAttribute('data-value')) === totalBeads) {
+                b.classList.add('selected');
+            } else {
+                b.classList.remove('selected');
+            }
+        });
+
+        // Theme management
+        let currentTheme = localStorage.getItem('komposxoini-theme') || 'auto';
+
+        function applyTheme(theme) {
+            if (theme === 'auto') {
+                document.documentElement.removeAttribute('data-theme');
+            } else {
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+            
+            themeBtns.forEach(b => {
+                if(b.getAttribute('data-value') === theme) {
+                    b.classList.add('selected');
+                } else {
+                    b.classList.remove('selected');
+                }
+            });
+            
+            localStorage.setItem('komposxoini-theme', theme);
+        }
+
+        applyTheme(currentTheme);
+
+        // Events for UI
+        themeBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                applyTheme(btn.getAttribute('data-value'));
+            });
+        });
+
+        toggleCompletionSound.checked = (completionSound === 'on');
+        toggleCompletionSound.addEventListener('change', (e) => {
+            completionSound = e.target.checked ? 'on' : 'off';
+            localStorage.setItem('komposxoini-completion-sound', completionSound);
+        });
+
+        voiceBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                voiceBtns.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                
+                currentVoice = btn.getAttribute('data-value');
+                localStorage.setItem('komposxoini-voice', currentVoice);
+                
+                if (isAudioPlaying) {
+                    audioElement.pause();
+                    audioElement.currentTime = 0;
+                    isAudioPlaying = false;
+                }
+            });
+        });
+
+        beadBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (currentMode !== "Ελεύθερα") return;
+                
+                beadBtns.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                
+                const newValue = parseInt(btn.getAttribute('data-value'));
+                if (newValue !== totalBeads) {
+                    totalBeads = newValue;
+                    currentCount = 0; // Reset progress when changing knot type
+                    saveState();
+                    createKomboskini();
+                    settingsModal.classList.remove('active');
+                }
+            });
+        });
+        toggleCenterCounter.checked = (showCenterCounter === 'on');
+        toggleCenterCounter.addEventListener('change', (e) => {
+            showCenterCounter = e.target.checked ? 'on' : 'off';
+            localStorage.setItem('komposxoini-show-center-counter', showCenterCounter);
+            updateVisibility();
+        });
+
+        toggleStats.checked = (showStats === 'on');
+        toggleStats.addEventListener('change', (e) => {
+            showStats = e.target.checked ? 'on' : 'off';
+            localStorage.setItem('komposxoini-show-stats', showStats);
+            updateVisibility();
+        });
+
+        updateVisibility();
+
+        function doToggleTimer() {
+            isTimerActive = !isTimerActive;
+            localStorage.setItem('komposxoini-timer-active', isTimerActive);
+            
+            if (currentMode !== "Ελεύθερα") {
+                currentModeTaskIndex = 0;
+                localStorage.setItem('komposxoini-mode-task-index', 0);
+                
+                currentCount = 0;
+                localStorage.setItem('komposxoini-count', 0);
+                
+                const list = isTimerActive ? MODE_TIMER_TASKS : MODE_TASKS;
+                if (list[currentMode] && list[currentMode].length > 0) {
+                    if (isTimerActive) {
+                        timerDurationSecs = list[currentMode][0].minutes * 60;
+                        localStorage.setItem('komposxoini-timer-duration', timerDurationSecs);
+                    } else {
+                        const newBeads = list[currentMode][0].beads;
+                        if (totalBeads !== newBeads) {
+                            totalBeads = newBeads;
+                            localStorage.setItem('komposxoini-beads', totalBeads);
+                        }
+                    }
+                }
+                if (typeof createKomboskini === 'function') {
+                    createKomboskini();
+                }
+                updateModeDisplay();
+            }
+
+            if (isTimerActive) {
+                timerState = 'idle';
+                timerSecondsRemaining = timerDurationSecs;
+            } else {
+                if (timerInterval) clearInterval(timerInterval);
+                timerState = 'idle';
+            }
+            updateTimerDisplay();
+        }
+
+        toggleTimerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (currentMode !== "Ελεύθερα") {
+                confirmResetModal.classList.add('active');
+            } else {
+                doToggleTimer();
+            }
+        });
+
+        confirmResetYesBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            confirmResetModal.classList.remove('active');
+            doToggleTimer();
+        });
+
+        confirmResetNoBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            confirmResetModal.classList.remove('active');
+        });
+
+        timerDisplay.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const h = Math.floor(timerDurationSecs / 3600);
+            const m = Math.floor((timerDurationSecs % 3600) / 60);
+            let defaultStr = h > 0 ? `${h}:${m.toString().padStart(2, '0')}` : `${m}`;
+            
+            const userInput = prompt("Αλλάξτε τη διάρκεια (π.χ. '30' για 30 λεπτά, ή '1:30' για 1 ώρα και 30 λεπτά):", defaultStr);
+            if (userInput !== null && userInput.trim() !== "") {
+                let parsedSecs = 0;
+                if (userInput.includes(':')) {
+                    const parts = userInput.split(':');
+                    const hrs = parseInt(parts[0]) || 0;
+                    const mins = parseInt(parts[1]) || 0;
+                    parsedSecs = (hrs * 3600) + (mins * 60);
+                } else {
+                    const mins = parseFloat(userInput);
+                    if (!isNaN(mins) && mins > 0) {
+                        parsedSecs = Math.floor(mins * 60);
+                    }
+                }
+                
+                if (parsedSecs > 0) {
+                    timerDurationSecs = parsedSecs;
+                    localStorage.setItem('komposxoini-timer-duration', timerDurationSecs);
+                    timerState = 'idle';
+                    timerSecondsRemaining = timerDurationSecs;
+                    if (timerInterval) clearInterval(timerInterval);
+                    updateTimerDisplay();
+                }
+            }
+        });
+
+        timerPlayPauseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            togglePlayPause();
+        });
+
+        if (isTimerActive) {
+            timerState = 'idle';
+            timerSecondsRemaining = timerDurationSecs;
+        }
+        updateTimerDisplay();
+
+        const VIEWBOX_SIZE = 1000;
+        const PATH_D = "M 500 850 C 150 550, 150 150, 500 150 C 850 150, 850 550, 500 850";
+
+        function createKomboskini() {
+            checkDate();
+            
+            const oldSvg = document.querySelector('svg.komboskini-svg');
+            if (oldSvg) oldSvg.remove();
+
+            beadsElements = [];
+            updateCounters();
+
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("viewBox", `0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}`);
+            svg.classList.add("komboskini-svg");
+
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", PATH_D);
+            path.style.fill = "none";
+            
+            if (totalBeads === 33) {
+                path.style.stroke = "var(--bead-empty)";
+                path.style.strokeWidth = "3";
+                path.style.transition = "stroke 0.5s ease";
+            } else {
+                path.style.stroke = "none";
+            }
+            
+            svg.appendChild(path);
+            mainContainer.appendChild(svg);
+
+            const pathLength = path.getTotalLength();
+            const crossGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+            crossGroup.classList.add("cross");
+            
+            let crossScale = 1;
+            if(totalBeads === 300) crossScale = 0.8;
+
+            const crossY = 850 + (30 * crossScale);
+            crossGroup.setAttribute("transform", `translate(500, ${crossY}) scale(${crossScale})`);
+            
+            const crossPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            crossPath.setAttribute("d", "M -8 -30 L 8 -30 L 8 -8 L 30 -8 L 30 8 L 8 8 L 8 50 L -8 50 L -8 8 L -30 8 L -30 -8 L -8 -8 Z");
+            crossGroup.appendChild(crossPath);
+            svg.appendChild(crossGroup);
+
+            const beadsGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+            svg.appendChild(beadsGroup);
+
+            const spacing = pathLength / totalBeads;
+            
+            let radius = Math.min(16, spacing / 2.3);
+
+            for (let i = 0; i < totalBeads; i++) {
+                const distance = (i + 0.5) * spacing;
+                const point = path.getPointAtLength(distance);
+
+                const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle.setAttribute("cx", point.x);
+                circle.setAttribute("cy", point.y);
+                circle.setAttribute("r", radius);
+                circle.classList.add("bead");
+
+                if (i < currentCount) {
+                    circle.classList.add("filled");
+                }
+
+                beadsGroup.appendChild(circle);
+                beadsElements.push(circle);
+            }
+            
+            // Re-adjust layout to affect the newly created SVG
+            setTimeout(adjustLayout, 50);
+        }
+
+        function updatePrayerText() {
+            let label = "";
+            if (currentMode !== "Ελεύθερα") {
+                const list = isTimerActive ? MODE_TIMER_TASKS : MODE_TASKS;
+                if (list[currentMode] && list[currentMode].length > currentModeTaskIndex) {
+                    label = list[currentMode][currentModeTaskIndex].label;
+                }
+            }
+
+            let text = "Κύριε Ἰησοῦ Χριστέ, ἐλέησόν με";
+
+            if (label === "(της Παναγίας)") {
+                text = "Υπεραγία Θεοτόκε σώσον με";
+            } else if (label === "(του Αγίου της ημέρας)" || label === "(του Αγίου της Ενορίας)" || label === "(σε Άγιο)") {
+                text = "Άγιε πρέσβευε υπέρ εμού";
+            } else if (label === "(του Αγίου της Εβδομάδας)") {
+                const day = new Date().getDay();
+                switch(day) {
+                    case 1: text = "Άγιοι Αρχάγγελοι πρεσβεύσατε υπέρ εμού"; break;
+                    case 2: text = "Βαπτιστά του Χριστού πρέσβευε υπέρ εμού"; break;
+                    case 3: 
+                    case 5: text = "Σταυρέ του Χριστού σώσον με τη δυνάμει σου"; break;
+                    case 4: text = "Άγιοι Απόστολοι πρεσβεύσατε υπέρ εμού και Άγιε Νικόλαε πρέσβευε υπέρ εμού"; break;
+                    case 6: text = "Άγιοι Πάντες πρεσβεύσατε υπέρ εμού"; break;
+                    case 0: text = "Παναγία Τριάς ελέησόν με"; break;
+                }
+            } else if (label === "(των Αγίων Πάντων)") {
+                text = "Άγιοι Πάντες πρεσβεύσατε υπέρ εμού";
+            }
+            
+            prayerTextEl.innerText = text;
+        }
+
+        function triggerPrayerPulse() {
+            updatePrayerText();
+            prayerTextEl.style.opacity = '1';
+            clearTimeout(prayerTextTimeout);
+            prayerTextTimeout = setTimeout(() => {
+                prayerTextEl.style.opacity = '0';
+            }, 1200); // Fades out gracefully after 1.2s of inactivity
+        }
+
+        function triggerCompletionSound(times = 1) {
+            if (completionSound !== 'on') return;
+
+            const executePlays = () => {
+                let playCount = 0;
+                const playNext = () => {
+                    if (playCount >= times) {
+                        completionAudioElement.removeEventListener('ended', playNext);
+                        return;
+                    }
+                    playCount++;
+                    completionAudioElement.currentTime = 0;
+                    completionAudioElement.play().catch(e => console.error("Completion audio playback failed:", e));
+                };
+                
+                completionAudioElement.addEventListener('ended', playNext);
+                playNext();
+            };
+
+            if (isAudioPlaying) {
+                const waitAndPlay = () => {
+                    executePlays();
+                    audioElement.removeEventListener('ended', waitAndPlay);
+                    audioElement.removeEventListener('error', waitAndPlay);
+                };
+                audioElement.addEventListener('ended', waitAndPlay);
+                audioElement.addEventListener('error', waitAndPlay);
+            } else {
+                executePlays();
+            }
+        }
+
+        function increment() {
+            // Prevent interaction if audio is currently playing
+            if (isAudioPlaying) return;
+
+            // Start timer on first interaction if it's idle
+            if (isTimerActive && timerState === 'idle') {
+                startTimer();
+            }
+
+            checkDate();
+
+            // Handle audio logic
+            if (currentVoice !== 'none' && currentMode === "Ελεύθερα") {
+                audioElement.src = `audio/${currentVoice}.mp3`;
+                isAudioPlaying = true; // Lock UI
+                audioElement.play().catch(e => {
+                    console.error("Audio playback failed. Please ensure the audio folder and files exist.", e);
+                    isAudioPlaying = false; // Unlock UI if missing file
+                });
+            }
+
+            // Show pulsing text
+            triggerPrayerPulse();
+
+            if (currentCount >= totalBeads) {
+                beadsElements.forEach(bead => bead.classList.remove("filled"));
+                currentCount = 0;
+                
+                // Add completed cycle to current bead type
+                stats.daily[totalBeads] = (stats.daily[totalBeads] || 0) + 1;
+                stats.overall[totalBeads] = (stats.overall[totalBeads] || 0) + 1;
+                
+                updateCounters();
+                saveState();
+
+                if (!isTimerActive && currentMode !== "Ελεύθερα" && MODE_TASKS[currentMode] && MODE_TASKS[currentMode].length > 0) {
+                    currentModeTaskIndex++;
+                    localStorage.setItem('komposxoini-mode-task-index', currentModeTaskIndex);
+                    
+                    if (currentModeTaskIndex >= MODE_TASKS[currentMode].length) {
+                        // Entire mode complete! Reset to Ελεύθερα
+                        currentMode = "Ελεύθερα";
+                        localStorage.setItem('komposxoini-mode', currentMode);
+                        currentModeTaskIndex = 0;
+                        localStorage.setItem('komposxoini-mode-task-index', 0);
+                        updateModeDisplay();
+                        
+                        Array.from(modeOptionsContainer.children).forEach(b => {
+                            if (b.innerText === "Ελεύθερα") b.classList.add('selected');
+                            else b.classList.remove('selected');
+                        });
+                    } else {
+                        // Advance to next task
+                        const nextBeads = MODE_TASKS[currentMode][currentModeTaskIndex].beads;
+                        if (totalBeads !== nextBeads) {
+                            totalBeads = nextBeads;
+                            localStorage.setItem('komposxoini-beads', totalBeads);
+                            updateCounters();
+                            if (typeof createKomboskini === 'function') createKomboskini();
+                        } else {
+                            // If bead count is the same, just re-render tasks
+                            renderTasks();
+                        }
+                    }
+                }
+            }
+
+            const bead = beadsElements[currentCount];
+            bead.classList.add("filled");
+            
+            bead.style.transformOrigin = `${bead.getAttribute('cx')}px ${bead.getAttribute('cy')}px`;
+            bead.classList.add("pulse");
+            setTimeout(() => bead.classList.remove("pulse"), 500);
+
+            centerCounterEl.classList.remove("bump");
+            void centerCounterEl.offsetWidth;
+            centerCounterEl.classList.add("bump");
+            setTimeout(() => centerCounterEl.classList.remove("bump"), 200);
+
+            currentCount++;
+            updateCounters();
+            saveState();
+
+            if (currentCount === totalBeads) {
+                completionGlow.classList.remove("active");
+                void completionGlow.offsetWidth;
+                completionGlow.classList.add("active");
+                
+                let timesToPlay = 1;
+                if (currentMode !== "Ελεύθερα" && MODE_TASKS[currentMode] && MODE_TASKS[currentMode].length > 0) {
+                    if (currentModeTaskIndex === MODE_TASKS[currentMode].length - 1) {
+                        timesToPlay = 3;
+                    }
+                }
+                triggerCompletionSound(timesToPlay);
+            }
+        }
+
+        function updateCounters() {
+            centerCounterEl.innerText = currentCount;
+            dailyCyclesEl.innerText = stats.daily[totalBeads] || 0;
+            overallCyclesEl.innerText = stats.overall[totalBeads] || 0;
+            dailyKnotTypeEl.innerText = totalBeads;
+            overallKnotTypeEl.innerText = totalBeads;
+        }
+
+        // --- Event Listeners ---
+
+        document.body.addEventListener('click', (e) => {
+            if (settingsModal.classList.contains('active') || modeModal.classList.contains('active')) return;
+            increment();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                if (!settingsModal.classList.contains('active') && !modeModal.classList.contains('active')) {
+                    increment();
+                }
+            }
+        });
+
+        openSettingsBtn.addEventListener('click', (e) => {
+            settingsModal.classList.add('active');
+            e.stopPropagation(); 
+        });
+
+        closeSettingsBtn.addEventListener('click', () => {
+            settingsModal.classList.remove('active');
+        });
+
+        settingsModal.addEventListener('click', (e) => {
+            if (e.target === settingsModal) {
+                settingsModal.classList.remove('active');
+            }
+            e.stopPropagation();
+        });
+
+        // Initialize application
+        checkDate();
+        createKomboskini();
+
+    </script>
+</body>
+</html>
