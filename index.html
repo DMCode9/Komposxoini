@@ -2065,10 +2065,6 @@
                 beadsElements.forEach(bead => bead.classList.remove("filled"));
                 currentCount = 0;
                 
-                // Add completed cycle to current bead type
-                stats.daily[totalBeads] = (stats.daily[totalBeads] || 0) + 1;
-                stats.overall[totalBeads] = (stats.overall[totalBeads] || 0) + 1;
-                
                 updateCounters();
                 saveState();
 
@@ -2114,6 +2110,12 @@
             saveState();
 
             if (currentCount === totalBeads) {
+                // Add completed cycle to current bead type
+                stats.daily[totalBeads] = (stats.daily[totalBeads] || 0) + 1;
+                stats.overall[totalBeads] = (stats.overall[totalBeads] || 0) + 1;
+                updateCounters();
+                saveState();
+
                 completionGlow.classList.remove("active");
                 void completionGlow.offsetWidth;
                 completionGlow.classList.add("active");
