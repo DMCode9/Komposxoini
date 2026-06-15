@@ -354,10 +354,17 @@
             box-shadow: 0 8px 32px var(--shadow-color);
         }
 
-        .settings-btn:hover {
+        .settings-btn:hover:not(:disabled) {
             background: var(--surface-hover);
             transform: rotate(90deg) scale(1.1);
             border-color: var(--gold-glow);
+        }
+
+        .settings-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            filter: grayscale(100%);
+            box-shadow: none;
         }
 
         .settings-btn svg {
@@ -1358,13 +1365,78 @@
             if (currentMode === "Ελεύθερα") {
                 modeDisplay.style.display = 'none';
                 toggleTimerBtn.style.opacity = '1';
+                openSettingsBtn.disabled = false;
             } else {
                 modeDisplay.style.display = 'flex';
                 modeDisplay.innerText = currentMode;
                 toggleTimerBtn.style.opacity = '1';
+                openSettingsBtn.disabled = true;
             }
+            updateVisibility();
             renderTasks();
             updateSettingsBeadsState();
+        }
+
+        function saveCurrentModeState() {
+            if (currentMode === "Ελεύθερα") {
+                localStorage.setItem('komposxoini-free-beads', totalBeads);
+                localStorage.setItem('komposxoini-free-count', currentCount);
+            } else {
+                localStorage.setItem(`komposxoini-${currentMode}-task-index`, currentModeTaskIndex);
+                if (isTimerActive) {
+                    localStorage.setItem(`komposxoini-${currentMode}-timer`, timerSecondsRemaining);
+                } else {
+                    localStorage.setItem(`komposxoini-${currentMode}-count`, currentCount);
+                }
+            }
+        }
+
+        function loadModeState(mode) {
+            currentMode = mode;
+            localStorage.setItem('komposxoini-mode', mode);
+            
+            if (mode === "Ελεύθερα") {
+                currentModeTaskIndex = 0;
+                localStorage.setItem('komposxoini-mode-task-index', 0);
+                
+                const prevBeads = parseInt(localStorage.getItem('komposxoini-free-beads')) || 33;
+                const prevCount = parseInt(localStorage.getItem('komposxoini-free-count')) || 0;
+                
+                totalBeads = prevBeads;
+                currentCount = prevCount;
+            } else {
+                currentModeTaskIndex = parseInt(localStorage.getItem(`komposxoini-${mode}-task-index`)) || 0;
+                localStorage.setItem('komposxoini-mode-task-index', currentModeTaskIndex);
+                
+                if (isTimerActive) {
+                    if (MODE_TIMER_TASKS[currentMode] && MODE_TIMER_TASKS[currentMode].length > 0) {
+                        timerDurationSecs = MODE_TIMER_TASKS[currentMode][currentModeTaskIndex].minutes * 60;
+                        localStorage.setItem('komposxoini-timer-duration', timerDurationSecs);
+                        let savedTimer = parseInt(localStorage.getItem(`komposxoini-${mode}-timer`));
+                        timerSecondsRemaining = isNaN(savedTimer) ? timerDurationSecs : savedTimer;
+                        if (timerState === 'running') pauseTimer();
+                        updateTimerDisplay();
+                    }
+                } else {
+                    if (MODE_TASKS[currentMode] && MODE_TASKS[currentMode].length > 0) {
+                        totalBeads = MODE_TASKS[currentMode][currentModeTaskIndex].beads;
+                        currentCount = parseInt(localStorage.getItem(`komposxoini-${mode}-count`)) || 0;
+                    }
+                }
+            }
+            
+            localStorage.setItem('komposxoini-beads', totalBeads);
+            localStorage.setItem('komposxoini-count', currentCount);
+            
+            if (typeof createKomboskini === 'function') createKomboskini();
+            if (typeof updateCounters === 'function') updateCounters();
+            
+            updateModeDisplay();
+            
+            Array.from(modeOptionsContainer.children).forEach(b => {
+                if (b.innerText === mode) b.classList.add('selected');
+                else b.classList.remove('selected');
+            });
         }
 
         function renderModeOptions() {
@@ -1378,62 +1450,16 @@
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     if (currentMode !== mode) {
-                        currentMode = mode;
-                        localStorage.setItem('komposxoini-mode', mode);
-                        currentModeTaskIndex = 0;
-                        localStorage.setItem('komposxoini-mode-task-index', 0);
-                        
-                        if (isTimerActive) {
-                            if (MODE_TIMER_TASKS[currentMode] && MODE_TIMER_TASKS[currentMode].length > 0) {
-                                timerDurationSecs = MODE_TIMER_TASKS[currentMode][0].minutes * 60;
-                                localStorage.setItem('komposxoini-timer-duration', timerDurationSecs);
-                                if (timerState === 'running') pauseTimer();
-                                timerSecondsRemaining = timerDurationSecs;
-                                updateTimerDisplay();
-                            }
-                        } else {
-                            if (MODE_TASKS[currentMode] && MODE_TASKS[currentMode].length > 0) {
-                                const newBeads = MODE_TASKS[currentMode][0].beads;
-                                if (totalBeads !== newBeads) {
-                                    totalBeads = newBeads;
-                                    localStorage.setItem('komposxoini-beads', totalBeads);
-                                    currentCount = 0;
-                                    localStorage.setItem('komposxoini-count', 0);
-                                    if (typeof createKomboskini === 'function') {
-                                        createKomboskini();
-                                    }
-                                }
-                            }
-                        }
-                        updateModeDisplay();
+                        saveCurrentModeState();
+                        loadModeState(mode);
                     }
-                    Array.from(modeOptionsContainer.children).forEach(b => b.classList.remove('selected'));
-                    btn.classList.add('selected');
                     setTimeout(() => modeModal.classList.remove('active'), 200);
+
                 });
                 modeOptionsContainer.appendChild(btn);
             });
         }
 
-        renderModeOptions();
-        updateModeDisplay();
-
-        openModeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            modeModal.classList.add('active');
-        });
-
-        closeModeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            modeModal.classList.remove('active');
-        });
-
-        modeModal.addEventListener('click', (e) => {
-            if (e.target === modeModal) {
-                modeModal.classList.remove('active');
-            }
-            e.stopPropagation();
-        });
 
         const toggleCenterCounter = document.getElementById('toggleCenterCounter');
         const toggleStats = document.getElementById('toggleStats');
@@ -1455,10 +1481,32 @@
 
         function updateVisibility() {
             centerCounterEl.style.display = showCenterCounter === 'on' ? 'block' : 'none';
-            bottomStatsContainer.style.display = showStats === 'on' ? 'flex' : 'none';
+            bottomStatsContainer.style.display = (showStats === 'on' && currentMode === "Ελεύθερα") ? 'flex' : 'none';
+            
+            if (typeof adjustLayout === 'function') {
+                setTimeout(adjustLayout, 50);
+            }
         }
 
+        renderModeOptions();
+        updateModeDisplay();
 
+        openModeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            modeModal.classList.add('active');
+        });
+
+        closeModeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            modeModal.classList.remove('active');
+        });
+
+        modeModal.addEventListener('click', (e) => {
+            if (e.target === modeModal) {
+                modeModal.classList.remove('active');
+            }
+            e.stopPropagation();
+        });
 
         function updateTimerDisplay() {
             if (!isTimerActive) {
@@ -1503,16 +1551,9 @@
                         
                         if (currentModeTaskIndex >= MODE_TIMER_TASKS[currentMode].length) {
                             // Entire mode complete
-                            currentMode = "Ελεύθερα";
-                            localStorage.setItem('komposxoini-mode', currentMode);
-                            currentModeTaskIndex = 0;
-                            localStorage.setItem('komposxoini-mode-task-index', 0);
-                            updateModeDisplay();
-                            
-                            Array.from(modeOptionsContainer.children).forEach(b => {
-                                if (b.innerText === "Ελεύθερα") b.classList.add('selected');
-                                else b.classList.remove('selected');
-                            });
+                            localStorage.setItem(`komposxoini-${currentMode}-task-index`, 0);
+                            localStorage.setItem(`komposxoini-${currentMode}-timer`, 0);
+                            loadModeState("Ελεύθερα");
                             
                             clearInterval(timerInterval);
                             timerState = 'idle';
@@ -2013,16 +2054,9 @@
                     
                     if (currentModeTaskIndex >= MODE_TASKS[currentMode].length) {
                         // Entire mode complete! Reset to Ελεύθερα
-                        currentMode = "Ελεύθερα";
-                        localStorage.setItem('komposxoini-mode', currentMode);
-                        currentModeTaskIndex = 0;
-                        localStorage.setItem('komposxoini-mode-task-index', 0);
-                        updateModeDisplay();
-                        
-                        Array.from(modeOptionsContainer.children).forEach(b => {
-                            if (b.innerText === "Ελεύθερα") b.classList.add('selected');
-                            else b.classList.remove('selected');
-                        });
+                        localStorage.setItem(`komposxoini-${currentMode}-task-index`, 0);
+                        localStorage.setItem(`komposxoini-${currentMode}-count`, 0);
+                        loadModeState("Ελεύθερα");
                     } else {
                         // Advance to next task
                         const nextBeads = MODE_TASKS[currentMode][currentModeTaskIndex].beads;
