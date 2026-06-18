@@ -1,4 +1,4 @@
-const CACHE_NAME = 'komposxoini-v1';
+const CACHE_NAME = 'komposxoini-v2';
 const ASSETS = [
   './',
   './index.html',

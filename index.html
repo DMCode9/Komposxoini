@@ -2,7 +2,7 @@
 <html lang="el">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Ψηφιακό Κομποσχοίνι</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="manifest" href="manifest.json">
@@ -189,6 +189,11 @@
             user-select: none;
         }
 
+        html {
+            background-color: var(--bg-color-start);
+            transition: background-color 0.5s ease;
+        }
+
         body {
             background: radial-gradient(circle at center, var(--bg-color-end) 0%, var(--bg-color-start) 100%);
             color: var(--text-color);
@@ -219,7 +224,7 @@
 
         .prayer-header {
             position: absolute;
-            top: 6vh;
+            top: max(6vh, calc(env(safe-area-inset-top) + 2vh));
             left: 0;
             width: 100%;
             text-align: center;
@@ -300,7 +305,7 @@
         /* Stats Panels */
         .bottom-stats-container {
             position: absolute;
-            bottom: 2rem;
+            bottom: max(2rem, calc(env(safe-area-inset-bottom) + 1rem));
             left: 2rem;
             right: 2rem;
             display: flex;
@@ -365,7 +370,7 @@
         /* Settings Button */
         .settings-btn {
             position: absolute;
-            top: 2rem;
+            top: max(2rem, calc(env(safe-area-inset-top) + 1rem));
             right: 2rem;
             background: var(--surface-bg);
             border: 1px solid var(--surface-border);
