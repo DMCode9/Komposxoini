@@ -14,10 +14,19 @@ const ASSETS = [
 self.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
+      return Promise.all(
+        ASSETS.map((url) => {
+          return fetch(new Request(url, { cache: 'no-cache' })).then((response) => {
+            if (!response.ok) {
+              throw new Error('Fetch failed for ' + url);
+            }
+            return cache.put(url, response);
+          });
+        })
+      );
     })
   );
-  self.skipWaiting();
+  // Removed self.skipWaiting() to allow user-controlled update
 });
 
 self.addEventListener('activate', (e) => {
@@ -39,4 +48,10 @@ self.addEventListener('fetch', (e) => {
       return response || fetch(e.request);
     })
   );
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });

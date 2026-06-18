@@ -967,6 +967,75 @@
             }
         }
 
+        .update-toast {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--surface-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--surface-border);
+            color: var(--text-color);
+            padding: 16px 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px var(--shadow-color);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: inherit;
+        }
+
+        .update-toast.show {
+            bottom: 30px;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .update-toast-text {
+            font-size: 15px;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .update-toast-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .update-toast-btn {
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            color: var(--text-color);
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .update-toast-btn.refresh {
+            background: var(--btn-selected-bg);
+            color: var(--btn-selected-text);
+            border-color: rgba(229, 193, 88, 0.3);
+            box-shadow: 0 4px 15px rgba(229, 193, 88, 0.15);
+        }
+
+        .update-toast-btn.refresh:hover {
+            background: rgba(229, 193, 88, 0.25);
+            box-shadow: 0 6px 20px rgba(229, 193, 88, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .update-toast-btn.close:hover {
+            background: var(--btn-hover-bg);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -2202,9 +2271,67 @@
                 navigator.serviceWorker.register('./sw.js')
                     .then((registration) => {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                        
+                        // Listen for updates to the service worker
+                        registration.addEventListener('updatefound', () => {
+                            const installingWorker = registration.installing;
+                            if (installingWorker == null) return;
+                            
+                            installingWorker.addEventListener('statechange', () => {
+                                if (installingWorker.state === 'installed') {
+                                    if (navigator.serviceWorker.controller) {
+                                        // New update available, show toast
+                                        showUpdateToast(installingWorker);
+                                    }
+                                }
+                            });
+                        });
                     }, (err) => {
                         console.log('ServiceWorker registration failed: ', err);
                     });
+            });
+
+            let refreshing = false;
+            // Listen for controllerchange to reload the page when the new worker takes over
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                if (!refreshing) {
+                    refreshing = true;
+                    window.location.reload();
+                }
+            });
+        }
+
+        function showUpdateToast(worker) {
+            // Check if toast already exists
+            if (document.getElementById('update-toast')) return;
+
+            const toast = document.createElement('div');
+            toast.id = 'update-toast';
+            toast.className = 'update-toast';
+            toast.innerHTML = `
+                <p class="update-toast-text">Υπάρχει νέα έκδοση διαθέσιμη!</p>
+                <div class="update-toast-actions">
+                    <button class="update-toast-btn close" id="update-toast-close">Κλείσιμο</button>
+                    <button class="update-toast-btn refresh" id="update-toast-refresh">Ανανέωση</button>
+                </div>
+            `;
+            document.body.appendChild(toast);
+
+            // Add slight delay to trigger animation
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    toast.classList.add('show');
+                }, 100);
+            });
+
+            document.getElementById('update-toast-refresh').addEventListener('click', () => {
+                toast.classList.remove('show');
+                worker.postMessage('SKIP_WAITING');
+            });
+
+            document.getElementById('update-toast-close').addEventListener('click', () => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 500); // Remove from DOM after animation
             });
         }
     </script>
