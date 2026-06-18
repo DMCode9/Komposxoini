@@ -349,10 +349,11 @@
         }
 
         .stats-value {
-            font-size: 2.2rem;
+            font-size: calc(2.2rem * var(--stat-scale, 1));
             font-weight: 700;
             color: var(--gold);
             line-height: 1;
+            transition: font-size 0.3s ease;
         }
 
         .stats-label {
@@ -878,7 +879,7 @@
                 letter-spacing: 1px;
             }
             .stats-value {
-                font-size: 1.6rem;
+                font-size: calc(1.6rem * var(--stat-scale, 1));
             }
             .stats-label {
                 font-size: 0.8rem;
@@ -997,14 +998,14 @@
             <div class="stats-header">Σήμερα</div>
             <div class="stats-body">
                 <div class="stats-value" id="dailyCycles">0</div>
-                <div class="stats-label"><span class="desktop-only">Κομποσχοίνια </span><span id="dailyKnotType">100</span>άρια</div>
+                <div class="stats-label">Ευχές</div>
             </div>
         </div>
         <div class="stats-panel bottom-right">
             <div class="stats-header">Συνολικά</div>
             <div class="stats-body">
                 <div class="stats-value" id="overallCycles">0</div>
-                <div class="stats-label"><span class="desktop-only">Κομποσχοίνια </span><span id="overallKnotType">100</span>άρια</div>
+                <div class="stats-label">Ευχές</div>
             </div>
         </div>
     </div>
@@ -1496,8 +1497,7 @@
         
         const dailyCyclesEl = document.getElementById('dailyCycles');
         const overallCyclesEl = document.getElementById('overallCycles');
-        const dailyKnotTypeEl = document.getElementById('dailyKnotType');
-        const overallKnotTypeEl = document.getElementById('overallKnotType');
+
         const bottomStatsContainer = document.querySelector('.bottom-stats-container');
 
         // State variables
@@ -1670,19 +1670,32 @@
         if (!stats) {
             stats = {
                 lastDate: getLocalDayString(),
-                daily: {33:0, 100:0, 300:0},
-                overall: {33:0, 100:0, 300:0}
+                daily: 0,
+                overall: 0
             };
         } else {
-            if (!stats.daily) stats.daily = {33:0, 100:0, 300:0};
-            if (!stats.overall) stats.overall = {33:0, 100:0, 300:0};
+            if (typeof stats.daily === 'object') {
+                let dailyKnots = 0;
+                let overallKnots = 0;
+                for (let type in stats.daily) {
+                    dailyKnots += stats.daily[type] * parseInt(type);
+                }
+                for (let type in stats.overall) {
+                    overallKnots += stats.overall[type] * parseInt(type);
+                }
+                stats.daily = dailyKnots;
+                stats.overall = overallKnots;
+                localStorage.setItem('komposxoini-stats', JSON.stringify(stats));
+            }
+            if (typeof stats.daily === 'undefined') stats.daily = 0;
+            if (typeof stats.overall === 'undefined') stats.overall = 0;
         }
 
         function checkDate() {
             const today = getLocalDayString();
             if (stats.lastDate !== today) {
                 stats.lastDate = today;
-                stats.daily = {33:0, 100:0, 300:0};
+                stats.daily = 0;
                 saveState();
             }
         }
@@ -2111,15 +2124,12 @@
             setTimeout(() => centerCounterEl.classList.remove("bump"), 200);
 
             currentCount++;
+            stats.daily++;
+            stats.overall++;
             updateCounters();
             saveState();
 
             if (currentCount === totalBeads) {
-                // Add completed cycle to current bead type
-                stats.daily[totalBeads] = (stats.daily[totalBeads] || 0) + 1;
-                stats.overall[totalBeads] = (stats.overall[totalBeads] || 0) + 1;
-                updateCounters();
-                saveState();
 
                 completionGlow.classList.remove("active");
                 void completionGlow.offsetWidth;
@@ -2137,10 +2147,17 @@
 
         function updateCounters() {
             centerCounterEl.innerText = currentCount;
-            dailyCyclesEl.innerText = stats.daily[totalBeads] || 0;
-            overallCyclesEl.innerText = stats.overall[totalBeads] || 0;
-            dailyKnotTypeEl.innerText = totalBeads;
-            overallKnotTypeEl.innerText = totalBeads;
+            dailyCyclesEl.innerText = stats.daily || 0;
+            overallCyclesEl.innerText = stats.overall || 0;
+            
+            [dailyCyclesEl, overallCyclesEl].forEach(el => {
+                const digits = el.innerText.length;
+                if (digits > 4) {
+                    el.style.setProperty('--stat-scale', (4.5 / digits).toString());
+                } else {
+                    el.style.setProperty('--stat-scale', '1');
+                }
+            });
         }
 
         // --- Event Listeners ---
