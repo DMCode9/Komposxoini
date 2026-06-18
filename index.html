@@ -1787,7 +1787,20 @@
         // Theme management
         let currentTheme = localStorage.getItem('komposxoini-theme') || 'auto';
 
+        function updateThemeColor() {
+            const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+            if (metaThemeColor) {
+                setTimeout(() => {
+                    const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--bg-color-start').trim();
+                    if (bgColor) {
+                        metaThemeColor.setAttribute('content', bgColor);
+                    }
+                }, 10);
+            }
+        }
+
         function applyTheme(theme) {
+            currentTheme = theme;
             if (theme === 'auto') {
                 document.documentElement.removeAttribute('data-theme');
             } else {
@@ -1803,9 +1816,16 @@
             });
             
             localStorage.setItem('komposxoini-theme', theme);
+            updateThemeColor();
         }
 
         applyTheme(currentTheme);
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            if (currentTheme === 'auto') {
+                updateThemeColor();
+            }
+        });
 
         // Events for UI
         themeBtns.forEach(btn => {
